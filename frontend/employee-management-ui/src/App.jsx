@@ -39,10 +39,10 @@ function App() {
 
   const fetchEmployees = async () => {
     try {
-      const response = await axios.get(
-        'http://localhost:8080/api/employees'
-      );
-
+      // const response = await axios.get(
+      //   'http://localhost:8080/api/employees'
+      // );
+      const API_URL = "https://employee-management-system-m5d0.onrender.com/api/employees";
       setEmployees(response.data);
       setErrorMessage('');
     } catch (error) {
