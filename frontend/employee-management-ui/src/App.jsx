@@ -37,22 +37,23 @@ function App() {
     fetchEmployees();
   }, []);
 
-  const fetchEmployees = async () => {
+const fetchEmployees = async () => {
     try {
-      // const response = await axios.get(
-      //   'http://localhost:8080/api/employees'
-      // );
-      const API_URL = "https://employee-management-system-m5d0.onrender.com/api/employees";
-      setEmployees(response.data);
-      setErrorMessage('');
-    } catch (error) {
-      console.error('Error fetching employees:', error);
+        const API_URL =
+            "https://employee-management-system-m5d0.onrender.com/api/employees";
 
-      setErrorMessage(
-        'Unable to load employees. Please check that the backend is running.'
-      );
+        const response = await axios.get(API_URL);
+
+        setEmployees(response.data);
+        setErrorMessage('');
+    } catch (error) {
+        console.error('Error fetching employees:', error);
+
+        setErrorMessage(
+            'Unable to load employees. Please check that the backend is running.'
+        );
     }
-  };
+};
 
   // ==============================
   // Handle form input
