@@ -2,8 +2,14 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import './App.css';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
+if (!API_BASE_URL) {
+  console.error('VITE_API_URL is not configured.');
+}
+
 const API_URL =
-  'https://employee-management-system-m5d0.onrender.com/api/employees';
+  `${API_BASE_URL?.replace(/\/$/, '')}/api/employees`;
 
 function App() {
   const [employees, setEmployees] = useState([]);
