@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import './App.css';
 
+const API_URL =
+  'https://employee-management-system-m5d0.onrender.com/api/employees';
+
 function App() {
   const [employees, setEmployees] = useState([]);
   const [showForm, setShowForm] = useState(false);
@@ -37,23 +40,20 @@ function App() {
     fetchEmployees();
   }, []);
 
-const fetchEmployees = async () => {
+  const fetchEmployees = async () => {
     try {
-        const API_URL =
-            "https://employee-management-system-m5d0.onrender.com/api/employees";
+      const response = await axios.get(API_URL);
 
-        const response = await axios.get(API_URL);
-
-        setEmployees(response.data);
-        setErrorMessage('');
+      setEmployees(response.data);
+      setErrorMessage('');
     } catch (error) {
-        console.error('Error fetching employees:', error);
+      console.error('Error fetching employees:', error);
 
-        setErrorMessage(
-            'Unable to load employees. Please check that the backend is running.'
-        );
+      setErrorMessage(
+        'Unable to load employees. Please check that the backend is running.'
+      );
     }
-};
+  };
 
   // ==============================
   // Handle form input
@@ -103,16 +103,13 @@ const fetchEmployees = async () => {
     }
 
     try {
-      const response = await axios.post(
-        'http://localhost:8080/api/employees',
-        {
-          firstName: formData.firstName.trim(),
-          lastName: formData.lastName.trim(),
-          email: formData.email.trim(),
-          department: formData.department.trim(),
-          salary: Number(formData.salary)
-        }
-      );
+      const response = await axios.post(API_URL, {
+        firstName: formData.firstName.trim(),
+        lastName: formData.lastName.trim(),
+        email: formData.email.trim(),
+        department: formData.department.trim(),
+        salary: Number(formData.salary)
+      });
 
       console.log('Employee added:', response.data);
 
@@ -152,9 +149,7 @@ const fetchEmployees = async () => {
     }
 
     try {
-      await axios.delete(
-        `http://localhost:8080/api/employees/${id}`
-      );
+      await axios.delete(`${API_URL}/${id}`);
 
       alert('Employee deleted successfully!');
 
@@ -225,7 +220,7 @@ const fetchEmployees = async () => {
 
     try {
       const response = await axios.put(
-        `http://localhost:8080/api/employees/${editingId}`,
+        `${API_URL}/${editingId}`,
         {
           firstName: formData.firstName.trim(),
           lastName: formData.lastName.trim(),
@@ -456,6 +451,7 @@ const fetchEmployees = async () => {
                 : handleSubmit
             }
           >
+
             {/* First Name */}
             <div>
               <label>First Name: </label>
@@ -547,6 +543,7 @@ const fetchEmployees = async () => {
             >
               Cancel
             </button>
+
           </form>
         </div>
       )}
@@ -573,6 +570,7 @@ const fetchEmployees = async () => {
           <table>
             <thead>
               <tr>
+
                 <th>ID</th>
 
                 <th
@@ -636,12 +634,14 @@ const fetchEmployees = async () => {
                 </th>
 
                 <th>Actions</th>
+
               </tr>
             </thead>
 
             <tbody>
               {currentEmployees.map((employee) => (
                 <tr key={employee.id}>
+
                   <td>{employee.id}</td>
 
                   <td>{employee.firstName}</td>
@@ -655,6 +655,7 @@ const fetchEmployees = async () => {
                   <td>{employee.salary}</td>
 
                   <td>
+
                     <button
                       onClick={() =>
                         handleEdit(employee)
@@ -672,7 +673,9 @@ const fetchEmployees = async () => {
                     >
                       Delete
                     </button>
+
                   </td>
+
                 </tr>
               ))}
             </tbody>
@@ -681,6 +684,7 @@ const fetchEmployees = async () => {
           {/* Pagination */}
           {totalPages > 1 && (
             <div className="pagination">
+
               <button
                 onClick={() =>
                   setCurrentPage(currentPage - 1)
@@ -704,10 +708,13 @@ const fetchEmployees = async () => {
               >
                 Next
               </button>
+
             </div>
           )}
+
         </>
       )}
+
     </div>
   );
 }
